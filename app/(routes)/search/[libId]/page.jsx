@@ -3,6 +3,7 @@ import { supabase } from '@/services/supabase';
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import Header from './_components/Header';
+import DisplayResult from './_components/DisplayResult';
 
 const SearchQueryResult = () => {
     const {libId}=useParams();
@@ -25,7 +26,10 @@ const SearchQueryResult = () => {
 
 
   return (
-    <div><Header searchInputRecord={searchInputRecord}/></div>
+    <div>
+        <Header searchInputRecord={searchInputRecord}/>
+        <DisplayResult searchInputRecord={searchInputRecord} />
+        </div>
   )
 }
 
