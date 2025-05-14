@@ -4,11 +4,13 @@ import {
   LucideSparkle,
   LucideVideo,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnswerDisplay } from "./AnswerDisplay";
 import { ImageDisplay } from "./ImageDisplay";
 import { VideoDisplay } from "./VideoDisplay";
-
+import {API_BASE_URL} from "../../../../services/api_base_url";
+import axios from "axios";
+import { searchData } from "../../../../_data/searchData";
 const tabs = [
   { label: "Answer", icon: LucideSparkle },
   { label: "Images", icon: LucideImage },
@@ -18,6 +20,31 @@ const tabs = [
 
 const DisplayResult = ({ searchInputRecord }) => {
   const [activeTab, setActiveTab] = useState("Answer");
+  const [searchResult,setSearchResult]=useState(searchData)
+
+  useEffect(() => {
+    //to prevent unnecessary api calls during production
+      // searchInputRecord && GetSearchApiResult();
+      
+      console.log("Setting mock result...");
+      setSearchResult(searchData)
+
+  }, [searchInputRecord]);
+
+      console.log("searchResult",searchResult)
+
+
+
+  const GetSearchApiResult = async ()=>{
+    const result = await axios.post(`${API_BASE_URL}/api/search-api`,
+      {
+        userInput:searchInputRecord?.userSearchInput,
+        searchType:searchInputRecord?.type
+      }
+    );
+
+    console.log("result",result)
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -66,7 +93,7 @@ const DisplayResult = ({ searchInputRecord }) => {
       <div className="transition-all duration-300 ease-in-out">
         {activeTab === "Answer" && (
           <div className="animate-fadeIn">
-            <AnswerDisplay />
+            <AnswerDisplay searchResult={searchResult?.data} />
           </div>
         )}
         {activeTab === "Images" && (

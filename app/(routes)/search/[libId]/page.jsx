@@ -24,6 +24,8 @@ const SearchQueryResult = () => {
         setSearchInputRecord(Library[0])
     }
 
+    
+
 
   return (
     <div>
